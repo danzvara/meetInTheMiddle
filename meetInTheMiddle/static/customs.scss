@@ -1,0 +1,23 @@
+.main-divider {
+  height: 680px;
+  border-right: 1px solid rgb(200, 200, 200);
+  -webkit-box-shadow: 6px 3px 17px -1px rgba(0,0,0,0.27);
+  -moz-box-shadow: 6px 3px 17px -1px rgba(0,0,0,0.27);
+  box-shadow: 6px 3px 17px -1px rgba(0,0,0,0.27);
+}
+
+.card {
+  border-radius: 6px;
+}
+
+.mar-top {
+  margin-top: 20px;
+}
+
+.pad-down {
+  padding-bottom: 12px;
+}
+
+.card-content {
+  padding: 1rem;
+}
