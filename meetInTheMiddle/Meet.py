@@ -31,6 +31,7 @@ class Meet:
         map((lambda x: x["Destination"]), cleanBrch), cleanDano)
 
     print(common)
+    return common
 
     #bestFlights = _chooseBest(flightsDano, flightsBrch)
 
