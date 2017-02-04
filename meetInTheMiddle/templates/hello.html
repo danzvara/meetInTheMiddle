@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="static/custom.css">
   <link rel="stylesheet" href="static/bulma.css">
   <link rel="stylesheet" href="static/pikaday.css">
+  <link rel="stylesheet" href="static/datepicker.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -13,6 +14,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="static/example.js"></script>
   <script type="text/javascript" src="static/pikaday.js"></script>
+  <script type="text/javascript" src="static/datepicker.min.js"></script>
+  <script type="text/javascript" src="static/i18n/datepicker.en.js"></script>
+
 </head>
 <body>
   <div class="columns">
@@ -32,7 +36,7 @@
                 <div class="column is-4">
                   <label class="label">Date</label>
                   <p class="control">
-                    <input class="input" type="text" placeholder="Date" id="datepicker">
+                    <input type='text' class="input datepicker-here" data-language='en' />
                   </p>
                 </div>
               </div>
