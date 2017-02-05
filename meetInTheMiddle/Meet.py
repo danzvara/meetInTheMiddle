@@ -34,10 +34,10 @@ class Meet:
 
     countries = ["FR-sky", "DE-sky", "NL-sky", "IT-sky", "SK-sky", "PL-sky"]
 
-    if (flightA.origin == "Prague, Czechia"):
-      flightA.origin = "Prague"
-    if (flightB.origin == "Prague, Czechia"):
-      flightB.origin = "Prague"
+    for delim in [',', '-']:
+      flightA.origin = flightA.origin.split(delim)[0]
+      flightB.origin = flightB.origin.split(delim)[0]
+
     flightA.origin = self.sky._place_request(flightA.origin)
     flightB.origin = self.sky._place_request(flightB.origin)
 
@@ -76,5 +76,7 @@ class Meet:
     return pairs
 
   def get_flight(self, flightA, flightB):
-    return self._chooseBest(flightA, flightB)
+    result = self._chooseBest(flightA, flightB)
+    print("Found", len(result), "destinations")
+    return result
 
