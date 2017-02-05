@@ -184,8 +184,14 @@
 
   // SEARCH CALL
   $('.lokos').click(function() {
-    if (!$('#froma').val() || !$('#fromb').val() || !$('#outbound').val() || !$('#inbound').val()) {
+    if (!$('#froma').val() || !$('#fromb').val() || !$('#outbound').val() || !$('#inbound').val()
+    {
       alert("Some parameters are missing!");
+      return
+    }
+    else if ($('#outbound').val() > $('#inbound').val())
+    {
+      alert("Outbound time can't be greater then inbound time!");
       return
     }
 
