@@ -19,7 +19,6 @@ def index():
 @app.route('/api/request', methods=['GET'])
 def request_flights():
   data = request.args
-  print(data)
 
   flightA = flight.Flight("uk", "gbp", "en-GB", data["fromA"], "everywhere",
         data["outbound"], data["inbound"])
