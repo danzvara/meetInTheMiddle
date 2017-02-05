@@ -10,7 +10,7 @@ class Meet:
 
   def _chooseBest(self, flightsA, flightsB):
     return sorted(self._searchForFlight(flightsA, flightsB),
-                  key = lambda x: x[0]["Price"] + x[1]["Price"])[0]
+                  key = lambda x: x[0]["Price"] + x[1]["Price"])
 
   def _clean(self, jobj, airports):
     res = {}
