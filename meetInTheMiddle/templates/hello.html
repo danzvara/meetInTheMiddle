@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>MeetInTheMiddle</title>
@@ -7,14 +8,16 @@
   <link rel="stylesheet" href="static/bulma.css">
   <link rel="stylesheet" href="static/datepicker.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg&libraries=places&language=en"> </script>
-  <script type="text/javascript" src="static/datepicker.min.js"></script>
+ <script type="text/javascript" src="static/datepicker.min.js"></script>
   <script type="text/javascript" src="static/i18n/datepicker.en.js"></script>
 
 </head>
+
 <body id="focus">
   <script type="text/javascript" src="static/example.js"></script>
 
@@ -69,8 +72,9 @@
               </div>
             </div>
           </div>
-          </div>
         </div>
+      </div>
+
 
         <div class="columns kokso">
           <div class="column is-10 is-offset-1">
@@ -86,23 +90,16 @@
                       <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)" />
                     </div>
                   </div>
-                  <div class="columns">
-                    <div class="column is-2 ">
-                      <label class="label">Dates</label>
-                    </div>
-                    <div class="column is-4">
-                      <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly out" />
-                    </div>
-                    <div class="column is-2" style="text-align:center;">-</div>
-                    <div class="column is-4">
-                      <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly back" />
-                    </div>
+                  <div class="column is-2" style="text-align:center;">-</div>
+                  <div class="column is-4">
+                    <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly back" />
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
+        </div>
+
 
       <div class="columns append-person-col">
         <div class="column is-offset-4 is-4" style="text-align:center;">
@@ -119,32 +116,14 @@
     <div class="column" id="map" style="min-height: 680px">
     </div>
   </div>
-<script>
-$.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function( data1 ) {
-  $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=poprad&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function( data2 ) {
-    initMap(data1.results[0].geometry.location,data2.results[0].geometry.location)
-  });
 
-});
 
-  function initMap(loc1, loc2) {
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 4,
-      center: loc1,
-      mapTypeControl: false
-    });
-    var marker = new google.maps.Marker({
-      position: loc1,
-      map: map
-    });
-    var marker = new google.maps.Marker({
-      position: loc2,
-      map: map
-    });
-  }
-</script>
+
+  <script type="text/javascript" src="static/map.js"></script>
+
 </body>
+
 
 
 
@@ -200,12 +179,13 @@ $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key
 
   initAutocomplete();
 
-    $('#append-person').on('click', function() {
-      $('.main-divider').append($('.kokso').first().clone());
-      $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length + 1));
-      $('.kokso').parent().append($('.append-person-col'));
-      initAutocomplete();
-    });
-  </script>
+  $('#append-person').on('click', function() {
+    $('.main-divider').append($('.kokso').first().clone());
+    $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length + 1));
+    $('.kokso').parent().append($('.append-person-col'));
+    initAutocomplete();
+  });
+</script>
 </body>
+
 </html>
