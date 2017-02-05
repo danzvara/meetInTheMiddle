@@ -58,7 +58,7 @@
                   <div class="img">
                   </div>
                   <div style="text-align:center;">
-                  <a href="http://www.skyscanner.com" class="button is-primary" style='margin-top:10px'>Buy Flights</a>
+                  <a href="#" class="button is-primary" style='margin-top:10px'>Buy Flights</a>
                 </div>
                   <div class="ahaha" style="visibility:hidden;"></div>
                 </div>
@@ -231,11 +231,16 @@
 
           $relevant.find('.dates').html("From " + IsoToUs(obj[i][0].OutTime) + " till " + IsoToUs(obj[i][0].InTime));
           $relevant.find('.pad-down').html("<b>" + obj[i][0].DestinationName.split(' ')[0] + " for £" + (obj[i][0].Price + obj[i][1].Price) + "</b>");
-          $relevant.find('.person1').html($('#froma').val() + " > " + obj[i][0].DestinationName + " (return) for £" + obj[i][0].Price);
-          $relevant.find('.person2').html($('#fromb').val() + " > " + obj[i][1].DestinationName + " (return) for £" + obj[i][1].Price);
+          $relevant.find('.person1').html($('#froma').val() + " > " + obj[i][0].DestinationName + " (return) for £" + obj[i][1].Price);
+          $relevant.find('.person2').html($('#fromb').val() + " > " + obj[i][1].DestinationName + " (return) for £" + obj[i][0].Price);
           var filipova_basen = $relevant;
 
           $relevant.find('.ahaha').html(i);
+
+          var link1 = "window.open('https://www.skyscanner.net/transport/flights/" + obj[i][0].OriginCode + "/" + obj[i][0].DestinationCode + "/" + obj[i][0].OutTime.replace(/-/g, "") + "/" + obj[i][0].InTime.replace(/-/g, "") + "/');";
+          var link2 = "window.open('https://www.skyscanner.net/transport/flights/" + obj[i][1].OriginCode + "/" + obj[i][1].DestinationCode + "/" + obj[i][1].OutTime.replace(/-/g, "") + "/" + obj[i][1].InTime.replace(/-/g, "") + "/');";
+
+          $relevant.find('.button').attr("onclick", link1 + link2);
 
           filipovaSpajza.push({
             one: obj[i][0].DestinationName,
