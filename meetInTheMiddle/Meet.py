@@ -64,8 +64,8 @@ class Meet:
                                  "CityId" : x["CityId"]}
     #print(airports_)
 
-    flightsDano = [self._clean(x, airports_) for x in responseDano["Quotes"]]
-    flightsBrch = [self._clean(x, airports_) for x in responseBrch["Quotes"]]
+    flightsDano = [self._clean(x, airports_) for x in responseDano["Quotes"] if "OutboundLeg" in responseDano["Quotes"].keys() and "InboundLeg" in responseDano["Quotes"]]
+    flightsBrch = [self._clean(x, airports_) for x in responseBrch["Quotes"] if "OutboundLeg" in responseBrch["Quotes"].keys() and "InboundLeg" in responseBrch["Quotes"]]
 
     pairs = list(product(flightsBrch, flightsDano))
     for crit in ["DestinationCityId", "InTime","OutTime"]:
