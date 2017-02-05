@@ -153,13 +153,9 @@
     $('#main-block').hide();
   });
 
-
-
-
-  <script>
-  findPhoto("Bondi beach", function(link) {
-    console.log(link)
-  })
+  // findPhoto("Bondi beach", function(link) {
+  //   console.log(link)
+  // })
 
 
   var usToIso = function(s) {
@@ -198,15 +194,12 @@
         if (obj.length % 2 != 0) obj.pop;
 
         for (var i = 0; i < obj.length; i += 2) {
-          console.log(obj[i]);
           var $relevant = $('#main-block').find('.add-trip').last();
           $relevant.find('.pad-down').html(obj[i].DestinationName + " for " + (obj[i].Price + obj[i + 1].Price));
           $relevant.find('.person1').html("From " + $('#froma').val() + " to " + obj[i].DestinationName + " for " + obj[i].Price);
           $relevant.find('.person2').html("From " + $('#fromb').val() + " to " + obj[i + 1].DestinationName + " for " + obj[i + 1].Price);
           $('#main-block').append($('.add-trip').last().clone());
         }
-
-
       }
     });
 
@@ -237,7 +230,7 @@
 
   $('#append-person').on('click', function() {
     $('.main-divider').append($('.kokso').first().clone());
-    $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length + 1));
+    $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length));
     $('.kokso').parent().append($('.append-person-col'));
     initAutocomplete();
   });
