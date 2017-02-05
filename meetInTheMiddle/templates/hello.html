@@ -10,12 +10,13 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg&libraries=places"> </script>
   <script type="text/javascript" src="static/example.js"></script>
   <script type="text/javascript" src="static/datepicker.min.js"></script>
   <script type="text/javascript" src="static/i18n/datepicker.en.js"></script>
 
 </head>
-<body>
+<body id="focus">
   <div class="columns">
     <div class="column is-5 main-divider">
       <div class="columns rero">
@@ -24,11 +25,12 @@
             <div class="container">
               <div class="nav-left">
                 <a class="nav-item">
-                  <img src="http://i.imgur.com/uemHSku.png" alt="Bulma logo">
+                  <img src="http://i.imgur.com/YWaXvJF.png" alt="meetInTheMiddle logo">
+                  <p class="nav-item ">Currency &nbsp; <b>£</b></p>
                 </a>
               </div>
               <div class="nav-right nav-menu">
-                <p class="nav-item is-tab">Currency &nbsp; <b>£</b></p>
+                <a class="nav-item is-tab button is-primary lokos">Search</a>
               </div>
             </div>
           </nav>
@@ -40,52 +42,64 @@
           <div class="card mar-top">
             <div class="card-content">
               <h4 class="pad-down">Person 1</h4>
-              <div class="columns">
-                <div class="column is-8">
-                  <label class="label">From</label>
-                  <p class="control">
-                    <input class="input" type="text" placeholder="John Smith">
-                  </p>
-
+              <div>
+                <div class="columns">
+                  <div class="column is-2 ">
+                    <label class="label">From</label>
+                  </div>
+                  <div class="column is-10 ">
+                    <input type='text' class="input pac-input" placeholder="e.g. Los Angeles (LAX)"/>
+                  </div>
                 </div>
-                <div class="column is-4">
-                  <label class="label">Dates</label>
-                  <p class="control">
-                    <input type='text' class="input datepicker-here" data-language='en' placeholder="From" />
-                  </p>
-                  <p class="control">
-                    <input type='text' class="input datepicker-here" data-language='en' placeholder="To" />
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="columns kokso">
-        <div class="column is-10 is-offset-1">
-          <div class="card">
-            <div class="card-content">
-              <h4 class="pad-down">Person 2</h4>
-              <div class="columns">
-                <div class="column is-8">
-                  <label class="label">From</label>
-                  <p class="control">
-                    <input class="input" type="text" placeholder="John Smith">
-                  </p>
-                </div>
-                <div class="column is-4">
-                  <label class="label">Date</label>
-                  <p class="control">
-                    <input type='text' class="input datepicker-here" data-language='en' />
-                  </p>
+                <div class="columns">
+                  <div class="column is-2 ">
+                    <label class="label">Dates</label>
+                  </div>
+                  <div class="column is-4">
+                    <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly out" />
+                  </div>
+                  <div class="column is-2" style="text-align:center;">-</div>
+                  <div class="column is-4">
+                    <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly back" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
+
+        <div class="columns kokso">
+          <div class="column is-10 is-offset-1">
+            <div class="card">
+              <div class="card-content">
+                <h4 class="pad-down">Person 2</h4>
+                <div>
+                  <div class="columns">
+                    <div class="column is-2 ">
+                      <label class="label">From</label>
+                    </div>
+                    <div class="column is-10 ">
+                      <input type='text' class="input pac-input" placeholder="e.g. Los Angeles (LAX)" />
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column is-2 ">
+                      <label class="label">Dates</label>
+                    </div>
+                    <div class="column is-4">
+                      <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly out" />
+                    </div>
+                    <div class="column is-2" style="text-align:center;">-</div>
+                    <div class="column is-4">
+                      <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly back" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
 
       <div class="columns append-person-col">
         <div class="column is-offset-4 is-4" style="text-align:center;">
@@ -98,17 +112,11 @@
       </div>
 
     </div>
-    <div class="column" id="map" style="height: 680px">
+
+    <div class="column" id="map" style="min-height: 680px">
     </div>
   </div>
-
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg">
-
-</script>
-
 <script>
-
 $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function( data1 ) {
   $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=poprad&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function( data2 ) {
     initMap(data1.results[0].geometry.location,data2.results[0].geometry.location)
@@ -120,7 +128,8 @@ $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 4,
-      center: loc1
+      center: loc1,
+      mapTypeControl: false
     });
     var marker = new google.maps.Marker({
       position: loc1,
@@ -137,10 +146,23 @@ $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key
 
 
   <script>
+  var initAutocomplete = function() {
+    var input = document.getElementsByClassName('pac-input');
+    for (var i = 0; i < input.length; i++) {
+      var autocomplete = new google.maps.places.Autocomplete(input[i]);
+      var infowindow = new google.maps.InfoWindow();
+      var infowindowContent = document.getElementById('infowindow-content');
+      infowindow.setContent(infowindowContent);
+    }
+  }
+
+  initAutocomplete();
+
     $('#append-person').on('click', function() {
       $('.main-divider').append($('.kokso').first().clone());
       $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length + 1));
       $('.kokso').parent().append($('.append-person-col'));
+      initAutocomplete();
     });
   </script>
 </body>

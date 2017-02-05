@@ -1,9 +1,22 @@
 .main-divider {
   min-height: 680px;
+  z-index: 2;
   border-right: 1px solid #c8c8c8;
   -webkit-box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27);
   -moz-box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27);
   box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27); }
+
+#focus .lokos {
+  margin: 10px; }
+
+#focus .card-content {
+  padding: 1.1rem; }
+
+#focus .columns:not(:last-child) {
+  margin-bottom: 0.2rem; }
+
+#map {
+  z-index: 1; }
 
 .card {
   border-radius: 6px; }
