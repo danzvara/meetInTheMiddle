@@ -13,7 +13,6 @@ class Scanner:
     self.robin = randint(0, len(self.apiKeys) - 1)
 
   def _getKey(self):
-    self.robin += 1
     return self.apiKeys[(self.robin - 1) % len(self.apiKeys)]
 
   def _request(self, country, currency, locale, origin,
@@ -33,6 +32,7 @@ class Scanner:
       return json_res
     except requests.exceptions.HTTPError as err:
       print(err.errno)
+      self.robin += 1
       return self._request(country, currency, locale, origin,
                            dest, outtime, intime)
 
@@ -50,4 +50,5 @@ class Scanner:
       return place
     except requests.exceptions.HTTPError as err:
       print(err.errno)
+      self.robin += 1
       return self._place_request(query)
