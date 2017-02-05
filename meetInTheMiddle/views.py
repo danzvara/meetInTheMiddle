@@ -25,4 +25,8 @@ def request_flights():
   flightB = flight.Flight("uk", "gbp", "en-GB", data["fromB"], "everywhere",
         data["outbound"], data["inbound"])
 
-  return json.dumps(meet.get_flight(flightA, flightB)[0])
+  result = meet.get_flight(flightA, flightB)
+  if (len(result) > 0):
+    return json.dumps(result[0])
+  else:
+    return json.dumps([])
