@@ -194,6 +194,22 @@
           $relevant.find('.person1').html("From " + $('#froma').val() + " to " + obj[i].DestinationName + " for £" + obj[i].Price);
           $relevant.find('.person2').html("From " + $('#fromb').val() + " to " + obj[i + 1].DestinationName + " for £" + obj[i + 1].Price);
           $('#main-block').append($('.add-trip').last().clone());
+
+          service = new google.maps.places.PlacesService(map);
+          service.textSearch({query : $('#froma').val()}, function(data1) {
+            service.textSearch({query : $('#fromb').val()}, function(data2) {
+              service.textSearch({query : obj[i].DestinationName}, function(data3) {
+                console.log(data1)
+                console.log(data2)
+
+                console.log(data3)
+
+
+              })
+            })
+          });
+
+
         }
       }
     });
