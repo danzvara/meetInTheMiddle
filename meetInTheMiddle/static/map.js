@@ -8,8 +8,8 @@ function findPhoto(city, cb) {
   service = new google.maps.places.PlacesService(map);
   service.textSearch({query : city}, function(data) {
     ref = data[0].reference
-    console.log(data[0].photos[0].getUrl({'maxWidth': 500, 'maxHeight': 500}))
-    console.log('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ref+'&key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg')
+    cb(data[0].photos[0].getUrl({'maxWidth': 250, 'maxHeight': 170}))
+
   });
 
 }
@@ -43,7 +43,7 @@ function createDestMarker(loc, map) {
     map: map
   });
   map.objects.push(marker)
-  
+
 }
 function createPath(loc1, loc2, map) {
   var flightPath = new google.maps.Polyline({

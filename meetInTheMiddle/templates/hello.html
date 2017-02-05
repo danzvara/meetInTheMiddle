@@ -42,20 +42,28 @@
         <div class="column is-10 is-offset-1">
           <div class="card mar-top">
             <div class="card-content behover">
-              <h4 class="pad-down">Person 1</h4>
+
+
               <div class="columns">
-                <div class="column dates">X</div>
-              </div>
-              <div class="columns">
-                <div class="column is-6 person1">Many wow</div>
-                <div class="column is-6 person2">idgidgwiudg</div>
-              </div>
-              <div class="columns">
-                <div class="column">
-                  <a href="http://www.skyscanner.com" class="button is-primary">Buy Flights</a>
+
+                <div class="column is-6">
+                  <h2 class="pad-down">Person 1</h2>
+                    <div class="dates">X</div>
+                  <hr>
+                  <div class="person1"></div>
+
+                  <div class="person2"></div>
+                </div>
+                <div class="column is-6">
+                  <div class="img">
+                  </div>
+                  <div style="text-align:center;">
+                  <a href="http://www.skyscanner.com" class="button is-primary" style='margin-top:10px'>Buy Flights</a>
+                </div>
                   <div class="ahaha" style="visibility:hidden;"></div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -124,7 +132,7 @@
                     <label class="label">From</label>
                   </div>
                   <div class="column is-10 ">
-                    <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)"  />
+                    <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)" />
                   </div>
                 </div>
                 <div class="columns">
@@ -177,8 +185,8 @@
   // SEARCH CALL
   $('.lokos').click(function() {
     if (!$('#froma').val() || !$('#fromb').val() || !$('#outbound').val() || !$('#inbound').val()) {
-        alert("Some parameters are missing!");
-        return
+      alert("Some parameters are missing!");
+      return
     }
 
     var froma = $('#froma').val();
@@ -216,7 +224,7 @@
 
         if (obj.length % 2 != 0) obj.pop;
 
-        obj = obj.slice(0,10);
+        obj = obj.slice(0, 10);
 
         for (var i = 0; i < obj.length; i++) {
           var $relevant = $('#main-block').find('.add-trip').last();
@@ -225,6 +233,8 @@
           $relevant.find('.pad-down').html("<b>" + obj[i][0].DestinationName.split(' ')[0] + " for £" + (obj[i][0].Price + obj[i][1].Price) + "</b>");
           $relevant.find('.person1').html($('#froma').val() + " > " + obj[i][0].DestinationName + " (return) for £" + obj[i][0].Price);
           $relevant.find('.person2').html($('#fromb').val() + " > " + obj[i][1].DestinationName + " (return) for £" + obj[i][1].Price);
+          var filipova_basen = $relevant;
+
           $relevant.find('.ahaha').html(i);
 
           filipovaSpajza.push({
@@ -263,6 +273,25 @@
           $('#main-block').append($('.add-trip').last().clone());
         }
         $('#main-block').find('.add-trip').last().remove();
+        var filipov_rozum = $('#main-block').find('.add-trip');
+        console.log(filipov_rozum)
+
+        for (var i = 0; i < filipov_rozum.length; i++) {
+          var element = filipov_rozum[i];
+
+          var destination = $(element).find('.pad-down').html().split(' ')[0].slice(3)
+          console.log(destination)
+          console.log(element)
+
+
+          findPhoto(destination, function(ind) {
+            return function(data) {
+              $(filipov_rozum[ind]).find('.img').html("<img style='width : 250px; height : 150px' src=" + data + "></img>");
+              console.log(ind)
+            };
+          }(i));
+
+        }
       },
       error: function(result) {
         $("#overlay").hide();
