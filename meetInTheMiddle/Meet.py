@@ -9,11 +9,12 @@ class Meet:
     self.sky = scanner.Scanner()
 
   def _chooseBest(self, flightsA, flightsB):
-    return 0
+    return sorted(self._searchForFlight(flightsA, flightsB),
+                  key = lambda x: x[0]["Price"] + x[1]["Price"])
 
   def _clean(self, jobj, airports):
     res = {}
-    res["MinPrice"] = jobj["MinPrice"]
+    res["Price"] = jobj["MinPrice"]
     res["DestinationId"] = jobj["OutboundLeg"]["DestinationId"]
     res["DestinationCityId"] = airports[res["DestinationId"]]["CityId"]
     res["DestinationName"] = airports[res["DestinationId"]]["Name"]
@@ -48,8 +49,8 @@ class Meet:
                                  "CityId" : x["CityId"]}
     #print(airports_)
 
-    flightsDano = [self._clean(x, airports_) for x in responseDano["Quotes"]]#map(self._clean, responseDano["Quotes"])
-    flightsBrch = [self._clean(x, airports_) for x in responseBrch["Quotes"]]#map(self._clean, responseBrch["Quotes"])
+    flightsDano = [self._clean(x, airports_) for x in responseDano["Quotes"]]
+    flightsBrch = [self._clean(x, airports_) for x in responseBrch["Quotes"]]
 
     pairs = list(product(flightsBrch, flightsDano))
     for crit in ["DestinationCityId", "InTime","OutTime"]:
@@ -59,7 +60,7 @@ class Meet:
     return pairs
 
   def get_flight(self, flightA, flightB):
-    return self._searchForFlight(flightA, flightB)
+    return self._chooseBest(flightA, flightB)
 
 def main():
   meet = Meet()
