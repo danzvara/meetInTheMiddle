@@ -199,6 +199,11 @@
         //ACTIVATE NEW STUFF HERE
         $('#back-block').hide();
 
+        if (result == []) {
+          alert('No trips found');
+          return;
+        }
+
         var addtrip = $('#main-block').find('.add-trip');
         for (var i = 1; i < addtrip.length; i++) {
           addtrip[i].remove();
@@ -228,26 +233,24 @@
               service.textSearch({
                 query: $('#froma').val()
               }, function(data3) {
-                console.log(data2[0].geometry.location);
                 createUserMarker(data2[0].geometry.location, map);
                 createUserMarker(data3[0].geometry.location, map);
-
                 createDestMarker(data1[0].geometry.location, map);
-
+                map.setCenter(data1[0].geometry.location);
                 createPath(data2[0].geometry.location, data1[0].geometry.location, map);
                 createPath(data3[0].geometry.location, data1[0].geometry.location, map);
-
-
-
-
-
               })
             })
           });
-
-
-
         }
+      },
+      error: function(result) {
+        $("#overlay").hide();
+        var addtrip = $('#main-block').find('.add-trip');
+        for (var i = 1; i < addtrip.length; i++) {
+          addtrip[i].remove();
+        }
+        alert('There was an error while processing your request.');
       }
     });
 
