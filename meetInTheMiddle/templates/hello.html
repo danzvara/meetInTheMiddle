@@ -46,11 +46,15 @@
                   <p class="control">
                     <input class="input" type="text" placeholder="John Smith">
                   </p>
+
                 </div>
                 <div class="column is-4">
-                  <label class="label">Date</label>
+                  <label class="label">Dates</label>
                   <p class="control">
-                    <input type='text' class="input datepicker-here" data-language='en' />
+                    <input type='text' class="input datepicker-here" data-language='en' placeholder="From" />
+                  </p>
+                  <p class="control">
+                    <input type='text' class="input datepicker-here" data-language='en' placeholder="To" />
                   </p>
                 </div>
               </div>
@@ -94,9 +98,43 @@
       </div>
 
     </div>
-    <div class="column">
+    <div class="column" id="map" style="height: 680px">
     </div>
   </div>
+
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg">
+
+</script>
+
+<script>
+
+$.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function( data1 ) {
+  $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=poprad&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function( data2 ) {
+    initMap(data1.results[0].geometry.location,data2.results[0].geometry.location)
+  });
+
+});
+
+  function initMap(loc1, loc2) {
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: loc1
+    });
+    var marker = new google.maps.Marker({
+      position: loc1,
+      map: map
+    });
+    var marker = new google.maps.Marker({
+      position: loc2,
+      map: map
+    });
+  }
+</script>
+</body>
+
+
 
   <script>
     $('#append-person').on('click', function() {
