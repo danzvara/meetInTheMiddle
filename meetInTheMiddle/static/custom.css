@@ -1,5 +1,5 @@
 .main-divider {
-  height: 680px;
+  min-height: 680px;
   border-right: 1px solid #c8c8c8;
   -webkit-box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27);
   -moz-box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27);
@@ -16,5 +16,8 @@
 
 .card-content {
   padding: 1rem; }
+
+.rero .column {
+  padding: 10px 0px 0px 0px; }
 
 /*# sourceMappingURL=custom.css.map */
