@@ -5,23 +5,21 @@
   <title>MeetInTheMiddle</title>
   <link rel="stylesheet" href="static/custom.css">
   <link rel="stylesheet" href="static/bulma.css">
-  <link rel="stylesheet" href="static/pikaday.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="static/example.js"></script>
-  <script type="text/javascript" src="static/pikaday.js"></script>
 </head>
 <body>
   <div class="columns">
     <div class="column is-5 main-divider">
+
       <div class="columns">
         <div class="column is-10 is-offset-1">
           <div class="card mar-top">
             <div class="card-content">
-              <h4 class="pad-down">You</h4>
+              <h4 class="pad-down">Person 1</h4>
               <div class="columns">
                 <div class="column is-8">
                   <label class="label">From</label>
@@ -32,13 +30,46 @@
                 <div class="column is-4">
                   <label class="label">Date</label>
                   <p class="control">
-                    <input class="input" type="text" placeholder="Date" id="datepicker">
+                    <input class="input" type="text" placeholder="Date">
                   </p>
                 </div>
               </div>
-
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="columns kokso">
+        <div class="column is-10 is-offset-1">
+          <div class="card">
+            <div class="card-content">
+              <h4 class="pad-down">Person 2</h4>
+              <div class="columns">
+                <div class="column is-8">
+                  <label class="label">From</label>
+                  <p class="control">
+                    <input class="input" type="text" placeholder="John Smith">
+                  </p>
+                </div>
+                <div class="column is-4">
+                  <label class="label">Date</label>
+                  <p class="control">
+                    <input class="input" type="text" placeholder="Date">
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns append-person-col">
+        <div class="column is-offset-4 is-4" style="text-align:center;">
+          <a id="append-person">
+            <span class="icon is-medium">
+              <i class="fa fa-plus-circle"></i>
+            </span>
+          </a>
         </div>
       </div>
 
@@ -47,17 +78,13 @@
 
     </div>
   </div>
-</body>
-<script>
-$(document).ready(function() {
-  var field = document.getElementById('datepicker');
-  var picker = new Pikaday({
-      onSelect: function(date) {
-          field.value = picker.toString();
-      }
-  });
-  field.parentNode.insertBefore(picker.el, field.nextSibling);
-});
 
-</script>
+  <script>
+    $('#append-person').on('click', function() {
+      $('.main-divider').append($('.kokso').first().clone());
+      $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length + 1));
+      $('.kokso').parent().append($('.append-person-col'));
+    });
+  </script>
+</body>
 </html>
