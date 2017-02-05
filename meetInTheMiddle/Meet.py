@@ -6,15 +6,18 @@ import time
 class Meet:
 
   def __init__(self):
-    pass
+    self.sky = scanner.Scanner()
 
   def _chooseBest(self, flightsA, flightsB):
     return 0
 
-  def _clean(self, jobj):
+  def _clean(self, jobj, airports):
     res = {}
     res["MinPrice"] = jobj["MinPrice"]
-    res["Destination"] = jobj["OutboundLeg"]["DestinationId"]
+    res["DestinationId"] = jobj["OutboundLeg"]["DestinationId"]
+    res["DestinationCityId"] = airports[res["DestinationId"]]["CityId"]
+    res["DestinationName"] = airports[res["DestinationId"]]["Name"]
+    res["DestinationCode"] = airports[res["DestinationId"]]["IataCode"]
     res["OutTime"] = jobj["OutboundLeg"]["DepartureDate"][0:10]
     res["InTime"] = jobj["InboundLeg"]["DepartureDate"][0:10]
 
@@ -22,43 +25,41 @@ class Meet:
 
   def _searchForFlight(self, flightA, flightB):
     sky = scanner.Scanner()
-    flightsDano = sky._request(flightA.country, flightA.currency,
+
+    flightA.origin = self.sky._place_request(flightA.origin)
+    flightB.origin = self.sky._place_request(flightB.origin)
+    responseDano = sky._request(flightA.country, flightA.currency,
                               flightA.locale, flightA.origin, flightA.dest,
                               flightA.outtime, flightA.intime)
-    flightsBrch = sky._request(flightB.country, flightB.currency,
+    responseBrch = sky._request(flightB.country, flightB.currency,
                               flightB.locale, flightB.origin, flightB.dest,
                               flightB.outtime, flightB.intime)
-    print(flightsDano)
-    airportsDano = filter((lambda x: x["Type"] == "Station"), flightsDano["Places"])
-    airportsBrch = filter((lambda x: x["Type"] == "Station"), flightsBrch["Places"])
+
+    #print(responseDano)
+
+    airportsDano = filter((lambda x: x["Type"] == "Station"), responseDano["Places"])
+    airportsBrch = filter((lambda x: x["Type"] == "Station"), responseBrch["Places"])
+
     airports = airportsBrch + airportsDano
     airports_ = {}
     for x in airports:
-      airports_[x["PlaceId"]] = {"IataCode":x["IataCode"], "Name":x["Name"]}
-    print(airports_)
+      airports_[x["PlaceId"]] = {"IataCode" : x["IataCode"],
+                                 "Name" : x["Name"],
+                                 "CityId" : x["CityId"]}
+    #print(airports_)
 
-    flightsBrch = flightsBrch["Quotes"]
-    flightsDano = flightsDano["Quotes"]
-    cleanDano = map(self._clean, flightsDano)
-    cleanBrch = map(self._clean, flightsBrch)
+    flightsDano = [self._clean(x, airports_) for x in responseDano["Quotes"]]#map(self._clean, responseDano["Quotes"])
+    flightsBrch = [self._clean(x, airports_) for x in responseBrch["Quotes"]]#map(self._clean, responseBrch["Quotes"])
 
-    pairs = list(product(cleanBrch, cleanDano))
-    criteria = ["Destination", "OutTime"]
-    for crit in criteria:
+    pairs = list(product(flightsBrch, flightsDano))
+    for crit in ["DestinationCityId", "InTime","OutTime"]:
       pairs = filter((lambda x: x[0][crit] == x[1][crit]), pairs)
 
-    for p in pairs:
-      p[0]["Destination"] = airports_[p[0]["Destination"]]["Name"]
-      p[1]["Destination"] = p[0]["Destination"]
-
+    print(pairs)
     return pairs
 
   def get_flight(self, flightA, flightB):
     return self._searchForFlight(flightA, flightB)
-
-
-
-
 
 def main():
   meet = Meet()
