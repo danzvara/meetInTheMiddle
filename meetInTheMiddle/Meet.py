@@ -35,6 +35,10 @@ class Meet:
 
     countries = ["FR-sky", "DE-sky", "NL-sky", "IT-sky", "SK-sky", "PL-sky"]
 
+    if (flightA.origin == "Prague, Czechia"):
+      flightA.origin = "Prague"
+    if (flightB.origin == "Prague, Czechia"):
+      flightB.origin = "Prague"
     flightA.origin = self.sky._place_request(flightA.origin)
     flightB.origin = self.sky._place_request(flightB.origin)
 #     responseDano = {}
