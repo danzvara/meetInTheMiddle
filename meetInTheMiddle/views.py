@@ -21,6 +21,6 @@ def request_flights():
 
   result = meet.get_flight(flightA, flightB)
   if (len(result) > 0):
-    return json.dumps(result[0])
+    return json.dumps(result)
   else:
     return json.dumps([])
