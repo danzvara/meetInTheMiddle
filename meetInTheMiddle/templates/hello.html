@@ -184,7 +184,7 @@
 
   // SEARCH CALL
   $('.lokos').click(function() {
-    if (!$('#froma').val() || !$('#fromb').val() || !$('#outbound').val() || !$('#inbound').val()
+    if (!$('#froma').val() || !$('#fromb').val() || !$('#outbound').val() || !$('#inbound').val())
     {
       alert("Some parameters are missing!");
       return
@@ -193,6 +193,18 @@
     {
       alert("Outbound time can't be greater then inbound time!");
       return
+    }
+    else {
+      var d = new Date();
+      var day = '' + d.getDate();
+      var month = '' + d.getMonth() + 1;
+      var year = '' + d.getFullYear()
+
+      if ([year, month, day].join('-') > $('#outbound').val())
+      {
+        alert("Timetravel nout possible!");
+        return
+      }
     }
 
     var froma = $('#froma').val();
