@@ -1,6 +1,6 @@
 from flask import render_template
 from meetInTheMiddle import app
-from Meet import *
+from meetInTheMiddle.Meet import *
 from flask import request
 import json
 

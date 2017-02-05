@@ -1,16 +1,14 @@
+from meetInTheMiddle import scanner, flight
 from itertools import product
-import scanner
-import flight
-import time
+
 
 class Meet:
-
   def __init__(self):
     self.sky = scanner.Scanner()
 
   def _chooseBest(self, flightsA, flightsB):
     return sorted(self._searchForFlight(flightsA, flightsB, True),
-                  key = lambda x: x[0]["Price"] + x[1]["Price"])
+                  key=lambda x: x[0]["Price"] + x[1]["Price"])
 
   def _clean(self, jobj, airports, carriers):
     res = {}
@@ -46,8 +44,8 @@ class Meet:
                                 flightA.locale, flightA.origin, flightA.dest,
                                 flightA.outtime, flightA.intime)
     responseBrch = sky._request(flightB.country, flightB.currency,
-                                  flightB.locale, flightB.origin, flightB.dest,
-                                  flightB.outtime, flightB.intime)
+                                flightB.locale, flightB.origin, flightB.dest,
+                                flightB.outtime, flightB.intime)
 
     airportsDano = filter((lambda x: x["Type"] == "Station"), responseDano["Places"])
     airportsBrch = filter((lambda x: x["Type"] == "Station"), responseBrch["Places"])
@@ -60,7 +58,7 @@ class Meet:
     for c in carriersBrch:
       carriers[c["CarrierId"]] = c["Name"]
 
-    airports = airportsBrch + airportsDano
+    airports = list(airportsBrch) + list(airportsDano)
     airports_ = {}
     for x in airports:
       airports_[x["PlaceId"]] = {"IataCode" : x["IataCode"],
@@ -71,10 +69,11 @@ class Meet:
     flightsBrch = [self._clean(x, airports_, carriers) for x in responseBrch["Quotes"]]
 
     pairs = list(product(flightsBrch, flightsDano))
-    for crit in ["DestinationCityId", "InTime","OutTime"]:
+    for crit in ["DestinationCityId", "InTime", "OutTime"]:
       pairs = filter((lambda x: x[0][crit] == x[1][crit]), pairs)
 
     return pairs
 
   def get_flight(self, flightA, flightB):
     return self._chooseBest(flightA, flightB)
+
