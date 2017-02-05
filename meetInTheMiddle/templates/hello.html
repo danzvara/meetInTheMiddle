@@ -41,7 +41,7 @@
       <div class="columns add-trip">
         <div class="column is-10 is-offset-1">
           <div class="card mar-top">
-            <div class="card-content">
+            <div class="card-content behover">
               <h4 class="pad-down">Person 1</h4>
               <div class="columns">
                 <div class="column dates">X</div>
@@ -53,6 +53,7 @@
               <div class="columns">
                 <div class="column">
                   <a href="http://www.skyscanner.com" class="button is-primary">Buy Flights</a>
+                  <div class="ahaha" style="visibility:hidden;"></div>
                 </div>
               </div>
             </div>
@@ -159,6 +160,7 @@
   <script type="text/javascript" src="static/map.js"></script>
 </body>
 <script>
+  var filipovaSpajza = []
   $(document).ready(function() {
     $('#main-block').hide();
   });
@@ -199,11 +201,6 @@
         //ACTIVATE NEW STUFF HERE
         $('#back-block').hide();
 
-        if (result == []) {
-          alert('No trips found');
-          return;
-        }
-
         var addtrip = $('#main-block').find('.add-trip');
         for (var i = 1; i < addtrip.length; i++) {
           addtrip[i].remove();
@@ -214,35 +211,52 @@
 
         if (obj.length % 2 != 0) obj.pop;
 
-        for (var i = 0; i < obj.length; i += 2) {
+        for (var i = 0; i < obj.length; i++) {
           var $relevant = $('#main-block').find('.add-trip').last();
 
-          $relevant.find('.dates').html("From " + IsoToUs(obj[i].OutTime) + " till " + IsoToUs(obj[i].InTime));
-          $relevant.find('.pad-down').html("<b>" + obj[i].DestinationName.split(' ')[0] + " for £" + (obj[i].Price + obj[i + 1].Price) + "</b>");
-          $relevant.find('.person1').html($('#froma').val() + " > " + obj[i].DestinationName + " (return) for £" + obj[i].Price);
-          $relevant.find('.person2').html($('#fromb').val() + " > " + obj[i + 1].DestinationName + " (return) for £" + obj[i + 1].Price);
-          if (i >= obj.length - 1) $('#main-block').append($('.add-trip').last().clone());
+          $relevant.find('.dates').html("From " + IsoToUs(obj[i][0].OutTime) + " till " + IsoToUs(obj[i][0].InTime));
+          $relevant.find('.pad-down').html("<b>" + obj[i][0].DestinationName.split(' ')[0] + " for £" + (obj[i][0].Price + obj[i][1].Price) + "</b>");
+          $relevant.find('.person1').html($('#froma').val() + " > " + obj[i][0].DestinationName + " (return) for £" + obj[i][0].Price);
+          $relevant.find('.person2').html($('#fromb').val() + " > " + obj[i][1].DestinationName + " (return) for £" + obj[i][1].Price);
+          $relevant.find('.ahaha').html(i);
 
-          service = new google.maps.places.PlacesService(map);
-          service.textSearch({
-            query: obj[i].DestinationName
-          }, function(data1) {
+          filipovaSpajza.push({
+            one: obj[i][0].DestinationName,
+            two: $('#fromb').val(),
+            three: $('#froma').val()
+          })
+
+          $relevant.click(function() {
+            $('.is-active-stuff').removeClass('is-active-stuff');
+            $(this).find('.card').addClass('is-active-stuff');
+            clearMap();
+            var kokso = this.getElementsByClassName('ahaha');
+            var ik = $(kokso).text();
+            service = new google.maps.places.PlacesService(map);
             service.textSearch({
-              query: $('#fromb').val()
-            }, function(data2) {
+              query: filipovaSpajza[ik].one
+            }, function(data1) {
               service.textSearch({
-                query: $('#froma').val()
-              }, function(data3) {
-                createUserMarker(data2[0].geometry.location, map);
-                createUserMarker(data3[0].geometry.location, map);
-                createDestMarker(data1[0].geometry.location, map);
-                map.setCenter(data1[0].geometry.location);
-                createPath(data2[0].geometry.location, data1[0].geometry.location, map);
-                createPath(data3[0].geometry.location, data1[0].geometry.location, map);
+                query: filipovaSpajza[ik].two
+              }, function(data2) {
+                service.textSearch({
+                  query: filipovaSpajza[ik].three
+                }, function(data3) {
+                  if (data2 == null || data3 == null || data1 == null) return;
+                  createUserMarker(data2[0].geometry.location, map);
+                  createUserMarker(data3[0].geometry.location, map);
+                  createDestMarker(data1[0].geometry.location, map);
+                  map.setCenter(data1[0].geometry.location);
+                  createPath(data2[0].geometry.location, data1[0].geometry.location, map);
+                  createPath(data3[0].geometry.location, data1[0].geometry.location, map);
+                })
               })
-            })
+            });
           });
+
+          $('#main-block').append($('.add-trip').last().clone());
         }
+        $('#main-block').find('.add-trip').last().remove();
       },
       error: function(result) {
         $("#overlay").hide();
@@ -283,7 +297,7 @@
   $('#append-person').on('click', function() {
     $('.main-divider').append($('.kokso').first().clone());
     $('.kokso').last().find('.pad-down').html('Person ' + ($('.kokso').length));
-    $('.kokso').parent().append($('.append-person-col'));
+    $('.kokso').parent().append($('.append-person-col').last());
     initAutocomplete();
   });
 </script>

@@ -1,10 +1,20 @@
 .main-divider {
-  min-height: 680px;
+  max-height: 680px;
+  overflow-y: scroll;
   z-index: 2;
   border-right: 1px solid #c8c8c8;
   -webkit-box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27);
   -moz-box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27);
   box-shadow: 6px 3px 17px -1px rgba(0, 0, 0, 0.27); }
+
+#focus .ahaha {
+  height: 1px; }
+
+.behover:hover {
+  background-color: #f1f1f1 !important; }
+
+#focus .is-active-stuff {
+  background-color: #ebebeb; }
 
 #overlay {
   position: absolute;
