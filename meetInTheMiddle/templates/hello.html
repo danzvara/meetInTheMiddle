@@ -183,6 +183,12 @@
         $("#overlay").hide();
         //ACTIVATE NEW STUFF HERE
         $('#back-block').hide();
+
+        var addtrip = $('#main-block').find('.add-trip');
+        for (var i = 1; i < addtrip.length; i++) {
+          addtrip[i].remove();
+        }
+
         $('#main-block').show();
         var obj = JSON.parse(result);
 

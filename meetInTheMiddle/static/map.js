@@ -58,3 +58,5 @@ var map = new google.maps.Map(document.getElementById('map'), {
   center: loc1,
   mapTypeControl: false
 });
+
+]

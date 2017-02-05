@@ -3,12 +3,21 @@ import json
 
 class Scanner:
 
+  robin = 0
+  apiKeys = ["im235201764412234487664519535179",
+             "prtl6749387986743898559646983194",
+             "im368752173193336741801399219284"]
+
   def __init__(self):
     pass
 
+  def _getKey(self):
+    self.robin += 1
+    return self.apiKeys[(self.robin - 1) % len(self.apiKeys)]
+
   def _request(self, country, currency, locale, origin,
               dest, outtime, intime):
-    apiKey = "prtl6749387986743898559646983194"
+    apiKey = self._getKey()
     url = "http://partners.api.skyscanner.net/apiservices/browsequotes/v1.0"
     url += ("/" + country + "/" + currency + "/" + locale + "/"
         + origin + "/" + dest + "/" + outtime + "/" +
@@ -19,7 +28,7 @@ class Scanner:
     return json_res
 
   def _place_request(self, query):
-    apiKey = "prtl6749387986743898559646983194"
+    apiKey = self._getKey()
     url = "http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0"
     url += ("/uk/gbp/en-GB?query=" + query + "&apiKey=" + apiKey)
     response = requests.get(url)
