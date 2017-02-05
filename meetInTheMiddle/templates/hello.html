@@ -41,8 +41,9 @@
           <div class="card mar-top">
             <div class="card-content">
               <h4 class="pad-down">Person 1</h4>
-              <div>
-                <p>huehuehuehe</p>
+              <div class="columns">
+                <div class="column is-6 person1">Many wow</div>
+                <div class="column is-6 person2">idgidgwiudg</div>
               </div>
             </div>
           </div>
@@ -58,7 +59,7 @@
               <div class="nav-left">
                 <a class="nav-item">
                   <img src="http://i.imgur.com/YWaXvJF.png" alt="meetInTheMiddle logo">
-                  <p class="nav-item ">Currency &nbsp; <b>£</b></p>
+                  <p class="nav-item">Currency &nbsp; <b>£</b></p>
                 </a>
               </div>
               <div class="nav-right nav-menu">
@@ -67,7 +68,6 @@
             </div>
           </nav>
         </div>
-
       </div>
 
       <div class="columns">
@@ -189,9 +189,16 @@
 
         if (obj.length % 2 != 0) obj.pop;
 
-        for (var i = 0; i < obj.length; i++) {
-          $('.add-trip').
+        for (var i = 0; i < obj.length; i += 2) {
+          console.log(obj[i]);
+          var $relevant = $('#main-block').find('.add-trip').last();
+          $relevant.find('.pad-down').html(obj[i].DestinationName + " for " + (obj[i].Price + obj[i + 1].Price));
+          $relevant.find('.person1').html("From " + $('#froma').val() + " to " + obj[i].DestinationName + " for " + obj[i].Price);
+          $relevant.find('.person2').html("From " + $('#fromb').val() + " to " + obj[i + 1].DestinationName + " for " + obj[i + 1].Price);
+          $('#main-block').append($('.add-trip').last().clone());
         }
+
+
       }
     });
 
