@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>MeetInTheMiddle</title>
@@ -13,6 +14,7 @@
   <script type="text/javascript" src="static/datepicker.min.js"></script>
   <script type="text/javascript" src="static/i18n/datepicker.en.js"></script>
 </head>
+
 <body id="focus">
   <div id="overlay"></div>
   <div class="columns">
@@ -42,8 +44,16 @@
             <div class="card-content">
               <h4 class="pad-down">Person 1</h4>
               <div class="columns">
+                <div class="column dates">X</div>
+              </div>
+              <div class="columns">
                 <div class="column is-6 person1">Many wow</div>
                 <div class="column is-6 person2">idgidgwiudg</div>
+              </div>
+              <div class="columns">
+                <div class="column">
+                  <a href="http://www.skyscanner.com" class="button is-primary">Buy Flights</a>
+                </div>
               </div>
             </div>
           </div>
@@ -157,6 +167,11 @@
     return s.split('/');
   };
 
+  var IsoToUs = function(s) {
+    var x = s.split('-');
+    return x[2] + "/" + x[1] + "/" + x[0]
+  }
+
   // SEARCH CALL
   $('.lokos').click(function() {
     var froma = $('#froma').val();
@@ -196,16 +211,24 @@
 
         for (var i = 0; i < obj.length; i += 2) {
           var $relevant = $('#main-block').find('.add-trip').last();
-          $relevant.find('.pad-down').html(obj[i].DestinationName + " for £" + (obj[i].Price + obj[i + 1].Price));
-          $relevant.find('.person1').html("From " + $('#froma').val() + " to " + obj[i].DestinationName + " for £" + obj[i].Price);
-          $relevant.find('.person2').html("From " + $('#fromb').val() + " to " + obj[i + 1].DestinationName + " for £" + obj[i + 1].Price);
-          $('#main-block').append($('.add-trip').last().clone());
+
+          $relevant.find('.dates').html("From " + IsoToUs(obj[i].OutTime) + " till " + IsoToUs(obj[i].InTime));
+          $relevant.find('.pad-down').html("<b>" + obj[i].DestinationName.split(' ')[0] + " for £" + (obj[i].Price + obj[i + 1].Price) + "</b>");
+          $relevant.find('.person1').html($('#froma').val() + " > " + obj[i].DestinationName + " (return) for £" + obj[i].Price);
+          $relevant.find('.person2').html($('#fromb').val() + " > " + obj[i + 1].DestinationName + " (return) for £" + obj[i + 1].Price);
+          if (i >= obj.length - 1) $('#main-block').append($('.add-trip').last().clone());
 
           service = new google.maps.places.PlacesService(map);
-          service.textSearch({query : obj[i].DestinationName}, function(data1) {
-            service.textSearch({query : $('#fromb').val()}, function(data2) {
-              service.textSearch({query : $('#froma').val()}, function(data3) {
-              console.log(data2[0].geometry.location);
+          service.textSearch({
+            query: obj[i].DestinationName
+          }, function(data1) {
+            service.textSearch({
+              query: $('#fromb').val()
+            }, function(data2) {
+              service.textSearch({
+                query: $('#froma').val()
+              }, function(data3) {
+                console.log(data2[0].geometry.location);
                 createUserMarker(data2[0].geometry.location, map);
                 createUserMarker(data3[0].geometry.location, map);
 
@@ -221,6 +244,7 @@
               })
             })
           });
+
 
 
         }

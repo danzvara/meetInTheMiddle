@@ -12,7 +12,7 @@ class Meet:
     return sorted(self._searchForFlight(flightsA, flightsB, True),
                   key = lambda x: x[0]["Price"] + x[1]["Price"])
 
-  def _clean(self, jobj, airports):
+  def _clean(self, jobj, airports, carriers):
     res = {}
     res["Price"] = jobj["MinPrice"]
     res["DestinationId"] = jobj["OutboundLeg"]["DestinationId"]
@@ -21,6 +21,12 @@ class Meet:
     res["DestinationCode"] = airports[res["DestinationId"]]["IataCode"]
     res["OutTime"] = jobj["OutboundLeg"]["DepartureDate"][0:10]
     res["InTime"] = jobj["InboundLeg"]["DepartureDate"][0:10]
+    if (len(jobj["OutboundLeg"]["CarrierIds"]) > 0
+        and len(jobj["InboundLeg"]["CarrierIds"]) > 0):
+      res["OutCarrierId"] = jobj["OutboundLeg"]["CarrierIds"][0]
+      res["InCarrierId"] = jobj["InboundLeg"]["CarrierIds"][0]
+      res["OutCarrier"] = carriers[res["OutCarrierId"]]
+      res["InCarrier"] = carriers[res["InCarrierId"]]
 
     return res
 
@@ -52,6 +58,14 @@ class Meet:
     airportsDano = filter((lambda x: x["Type"] == "Station"), responseDano["Places"])
     airportsBrch = filter((lambda x: x["Type"] == "Station"), responseBrch["Places"])
 
+    carriersDano = responseDano["Carriers"]
+    carriersBrch = responseBrch["Carriers"]
+    carriers = {}
+    for c in carriersDano:
+      carriers[c["CarrierId"]] = c["Name"]
+    for c in carriersBrch:
+      carriers[c["CarrierId"]] = c["Name"]
+
     airports = airportsBrch + airportsDano
     airports_ = {}
     for x in airports:
@@ -60,15 +74,15 @@ class Meet:
                                  "CityId" : x["CityId"]}
     #print(airports_)
 
-    flightsDano = [self._clean(x, airports_) for x in responseDano["Quotes"]]# if "OutboundLeg" in responseDano["Quotes"] and "InboundLeg" in responseDano["Quotes"]]
-    flightsBrch = [self._clean(x, airports_) for x in
+    flightsDano = [self._clean(x, airports_, carriers) for x in responseDano["Quotes"]]# if "OutboundLeg" in responseDano["Quotes"] and "InboundLeg" in responseDano["Quotes"]]
+    flightsBrch = [self._clean(x, airports_, carriers) for x in
         responseBrch["Quotes"]]# if "OutboundLeg" in responseBrch["Quotes"] and "InboundLeg" in responseBrch["Quotes"]]
 
     pairs = list(product(flightsBrch, flightsDano))
     for crit in ["DestinationCityId", "InTime","OutTime"]:
       pairs = filter((lambda x: x[0][crit] == x[1][crit]), pairs)
 
-    print(pairs)
+    #print(pairs)
     return pairs
 
   def get_flight(self, flightA, flightB):
