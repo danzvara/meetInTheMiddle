@@ -18,6 +18,8 @@
 <body id="focus">
   <script type="text/javascript" src="static/example.js"></script>
 
+  <div id="overlay"></div>
+
   <div class="columns">
     <div class="column is-5 main-divider">
       <div class="columns rero">
@@ -173,9 +175,13 @@ $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key
     url: "/api/request",
     data: data,
     success: function(result) {
-        console.log(result);
-        }
+      console.log(result);
+      $("#overlay").hide();
+    }
     });
+
+    // Continue with some stuff
+    $("#overlay").show();
 
   })
 
