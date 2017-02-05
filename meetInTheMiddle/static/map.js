@@ -32,15 +32,19 @@ function createUserMarker(loc, map) {
     map: map,
     icon: image
   });
+  map.objects.push(marker)
+
 }
 
 function createDestMarker(loc, map) {
+
   var marker = new google.maps.Marker({
     position: loc,
     map: map
   });
+  map.objects.push(marker)
+  
 }
-
 function createPath(loc1, loc2, map) {
   var flightPath = new google.maps.Polyline({
     path: [loc1, loc2],
@@ -50,13 +54,20 @@ function createPath(loc1, loc2, map) {
     strokeWeight: 2
   });
 
+  map.objects.push(flightPath)
+
   flightPath.setMap(map);
 }
 
 var map = new google.maps.Map(document.getElementById('map'), {
   zoom: 4,
-  center: loc1,
+  center : {"lng":0, "lat":50},
   mapTypeControl: false
 });
+map.objects = []
 
-]
+function clearMap() {
+  for(i=0; i<map.objects.length; i++){
+    map.objects[i].setMap(null);
+}
+}

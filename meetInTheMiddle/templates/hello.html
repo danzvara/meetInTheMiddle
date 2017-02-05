@@ -202,13 +202,20 @@
           $('#main-block').append($('.add-trip').last().clone());
 
           service = new google.maps.places.PlacesService(map);
-          service.textSearch({query : $('#froma').val()}, function(data1) {
+          service.textSearch({query : obj[i].DestinationName}, function(data1) {
             service.textSearch({query : $('#fromb').val()}, function(data2) {
-              service.textSearch({query : obj[i].DestinationName}, function(data3) {
-                console.log(data1)
-                console.log(data2)
+              service.textSearch({query : $('#froma').val()}, function(data3) {
+              console.log(data2[0].geometry.location);
+                createUserMarker(data2[0].geometry.location, map);
+                createUserMarker(data3[0].geometry.location, map);
 
-                console.log(data3)
+                createDestMarker(data1[0].geometry.location, map);
+
+                createPath(data2[0].geometry.location, data1[0].geometry.location, map);
+                createPath(data3[0].geometry.location, data1[0].geometry.location, map);
+
+
+
 
 
               })
@@ -225,6 +232,7 @@
   });
 
   $('.hoho').click(function() {
+    clearMap()
     $('#main-block').hide();
     $('#back-block').show();
   })
