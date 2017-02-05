@@ -1,31 +1,8 @@
 $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function(data1) {
   $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=poprad&key=AIzaSyCaBLkUO7eDszM2qaxeBeTnR2JAekImnLk", function(data2) {
-    initMap(data1.results[0].geometry.location, data2.results[0].geometry.location)
+    initMap(data1.results[0].geometry.location, data2.results[0].geometry.location);
   });
-
-
 });
-
-
-
-function findPhoto(city, cb) {
-
-  service = new google.maps.places.PlacesService(map);
-  service.textSearch({query : city}, function(data) {
-    ref = data[0].reference
-    console.log(data[0].photos[0].getUrl({'maxWidth': 500, 'maxHeight': 500}))
-    console.log('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+ref+'&key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg')
-  });
-
-
-
-
-
-
-
-
-}
-
 
 function createUserMarker(loc, map) {
   var image = {
@@ -71,11 +48,19 @@ function initMap(loc1, loc2) {
     mapTypeControl: false
   });
 
+  function findPhoto(city, cb) {
+    service = new google.maps.places.PlacesService(map);
+    service.textSearch({query : city}, function(data) {
+      console.log(data[0].photos[0].getUrl({'maxWidth': 500, 'maxHeight': 500}));
+    });
+  };
+
+  findPhoto("Bondi beach", function(link) {
+    console.log(link);
+  });
+
   createUserMarker(loc1, map)
   createUserMarker(loc2, map)
   createPath(loc1, loc2, map)
-
-
-
 
 }
