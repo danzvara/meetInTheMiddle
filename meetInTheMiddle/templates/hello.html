@@ -169,10 +169,9 @@ $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key
     var data = { fromA: froma, fromB: fromb, outbound: outbound, inbound: inbound};
 
     $.ajax({
-    type : "POST",
-    url: "http://129.31.222.171:8080/api/request",
-    data: JSON.stringify(data, null, '\t'),
-    contentType: 'application/json;charset=UTF-8',
+    type : "GET",
+    url: "/api/request",
+    data: data,
     success: function(result) {
         console.log(result);
         }
