@@ -55,9 +55,9 @@ function initMap(loc1, loc2) {
     });
   };
 
-  findPhoto("Bondi beach", function(link) {
-    console.log(link);
-  });
+  // findPhoto("Bondi beach", function(link) {
+  //   console.log(link);
+  // });
 
   createUserMarker(loc1, map)
   createUserMarker(loc2, map)
