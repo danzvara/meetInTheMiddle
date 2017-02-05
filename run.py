@@ -1,4 +1,4 @@
 from os import environ
 from meetInTheMiddle import app
-
-app.run(port=8080, debug=True)
+p = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=p)
