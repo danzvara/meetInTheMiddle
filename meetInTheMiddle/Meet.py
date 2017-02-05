@@ -9,7 +9,7 @@ class Meet:
     self.sky = scanner.Scanner()
 
   def _chooseBest(self, flightsA, flightsB):
-    return sorted(self._searchForFlight(flightsA, flightsB),
+    return sorted(self._searchForFlight(flightsA, flightsB, True),
                   key = lambda x: x[0]["Price"] + x[1]["Price"])
 
   def _clean(self, jobj, airports):
@@ -24,19 +24,34 @@ class Meet:
 
     return res
 
-  def _searchForFlight(self, flightA, flightB):
+  def _searchForFlight(self, flightA, flightB, selected):
     sky = scanner.Scanner()
+
+    countries = ["FR-sky", "DE-sky", "NL-sky", "IT-sky", "SK-sky", "PL-sky"]
 
     flightA.origin = self.sky._place_request(flightA.origin)
     flightB.origin = self.sky._place_request(flightB.origin)
-    responseDano = sky._request(flightA.country, flightA.currency,
-                              flightA.locale, flightA.origin, flightA.dest,
-                              flightA.outtime, flightA.intime)
-    responseBrch = sky._request(flightB.country, flightB.currency,
-                              flightB.locale, flightB.origin, flightB.dest,
-                              flightB.outtime, flightB.intime)
+    responseDano = {}
+    responseBrch = {}
+    if (selected):
+      for country in countries:
+        responseDano.update(sky._request(flightA.country, flightA.currency,
+                                  flightA.locale, flightA.origin, country,
+                                  flightA.outtime, flightA.intime))
+        responseBrch.update(sky._request(flightB.country, flightB.currency,
+                                  flightB.locale, flightB.origin, country,
+                                  flightB.outtime, flightB.intime))
+    else:
+      responseDano = sky._request(flightA.country, flightA.currency,
+                                  flightA.locale, flightA.origin, flightA.dest,
+                                  flightA.outtime, flightA.intime)
+      responseBrch = sky._request(flightB.country, flightB.currency,
+                                  flightB.locale, flightB.origin, flightB.dest,
+                                  flightB.outtime, flightB.intime)
 
-    #print(responseDano)
+
+    if ("Places" not in responseBrch or "Places" not in responseDano):
+      return []
 
     airportsDano = filter((lambda x: x["Type"] == "Station"), responseDano["Places"])
     airportsBrch = filter((lambda x: x["Type"] == "Station"), responseBrch["Places"])
@@ -57,7 +72,10 @@ class Meet:
       pairs = filter((lambda x: x[0][crit] == x[1][crit]), pairs)
 
     print(pairs)
-    return pairs
+    if (len(pairs) < 1):
+      return self._searchForFlight(flightA, flightB, False)
+    else:
+      return pairs
 
   def get_flight(self, flightA, flightB):
     return self._chooseBest(flightA, flightB)

@@ -8,12 +8,6 @@ meet = Meet()
 
 @app.route('/')
 def index():
-    flightA = flight.Flight("uk", "gbp", "en-GB", "STN", "everywhere",
-        "2017-03-27", "2017-04-04")
-    flightB = flight.Flight("uk", "gbp", "en-GB", "BTS", "everywhere",
-        "2017-03-27", "2017-04-04")
-
-    print(json.dumps(meet.get_flight(flightA, flightB)))
     return render_template('hello.html', name='jano')
 
 @app.route('/api/request', methods=['GET'])
@@ -25,4 +19,8 @@ def request_flights():
   flightB = flight.Flight("uk", "gbp", "en-GB", data["fromB"], "everywhere",
         data["outbound"], data["inbound"])
 
-  return json.dumps(meet.get_flight(flightA, flightB)[0])
+  result = meet.get_flight(flightA, flightB)
+  if (len(result) > 0):
+    return json.dumps(result[0])
+  else:
+    return json.dumps([])
