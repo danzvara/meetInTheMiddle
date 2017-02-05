@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="static/datepicker.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg&libraries=places&language=en">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg&libraries=places&language=en-GB">
   </script>
   <script type="text/javascript" src="static/datepicker.min.js"></script>
   <script type="text/javascript" src="static/i18n/datepicker.en.js"></script>
@@ -92,7 +92,7 @@
                     <label class="label">From</label>
                   </div>
                   <div class="column is-10 ">
-                    <input type='text' class="input pac-input" id="froma" placeholder="e.g. Los Angeles (LAX)" value="Bratislava" />
+                    <input type='text' class="input pac-input" id="froma" placeholder="e.g. Los Angeles (LAX)" />
                   </div>
                 </div>
                 <div class="columns">
@@ -124,7 +124,7 @@
                     <label class="label">From</label>
                   </div>
                   <div class="column is-10 ">
-                    <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)" value="Berlin" />
+                    <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)"  />
                   </div>
                 </div>
                 <div class="columns">
@@ -176,6 +176,11 @@
 
   // SEARCH CALL
   $('.lokos').click(function() {
+    if (!$('#froma').val() || !$('#fromb').val() || !$('#outbound').val() || !$('#inbound').val()) {
+        alert("Some parameters are missing!");
+        return
+    }
+
     var froma = $('#froma').val();
     var fromb = $('#fromb').val();
     var outbound = $('#outbound').val();
@@ -210,6 +215,8 @@
         var obj = JSON.parse(result);
 
         if (obj.length % 2 != 0) obj.pop;
+
+        obj = obj.slice(0,10);
 
         for (var i = 0; i < obj.length; i++) {
           var $relevant = $('#main-block').find('.add-trip').last();
@@ -253,7 +260,6 @@
               })
             });
           });
-
           $('#main-block').append($('.add-trip').last().clone());
         }
         $('#main-block').find('.add-trip').last().remove();
