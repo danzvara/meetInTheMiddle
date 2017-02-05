@@ -6,7 +6,7 @@ import time
 class Meet:
 
   def __init__(self):
-    pass
+    self.sky = scanner.Scanner()
 
   def _chooseBest(self, flightsA, flightsB):
     return 0
@@ -25,6 +25,9 @@ class Meet:
 
   def _searchForFlight(self, flightA, flightB):
     sky = scanner.Scanner()
+
+    flightA.origin = self.sky._place_request(flightA.origin)
+    flightB.origin = self.sky._place_request(flightB.origin)
     responseDano = sky._request(flightA.country, flightA.currency,
                               flightA.locale, flightA.origin, flightA.dest,
                               flightA.outtime, flightA.intime)
@@ -52,14 +55,11 @@ class Meet:
     for crit in ["DestinationCityId", "InTime","OutTime"]:
       pairs = filter((lambda x: x[0][crit] == x[1][crit]), pairs)
 
+    print(pairs)
     return pairs
 
   def get_flight(self, flightA, flightB):
     return self._searchForFlight(flightA, flightB)
-
-
-
-
 
 def main():
   meet = Meet()
