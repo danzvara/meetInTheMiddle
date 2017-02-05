@@ -200,7 +200,7 @@
       var month = '' + d.getMonth() + 1;
       var year = '' + d.getFullYear()
 
-      if ([year, month, day].join('-') > $('#outbound').val())
+      if ([month, day, year].join('-') > $('#outbound').val())
       {
         alert("Timetravel nout possible!");
         return
