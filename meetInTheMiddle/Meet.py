@@ -1,7 +1,6 @@
 from meetInTheMiddle import scanner, flight
 from itertools import product
 
-
 class Meet:
   def __init__(self):
     self.sky = scanner.Scanner()
@@ -41,35 +40,35 @@ class Meet:
     flightA.origin = self.sky._place_request(flightA.origin)
     flightB.origin = self.sky._place_request(flightB.origin)
 
-    responseDano = sky._request(flightA.country, flightA.currency,
+    responseA = sky._request(flightA.country, flightA.currency,
                                 flightA.locale, flightA.origin, flightA.dest,
                                 flightA.outtime, flightA.intime)
-    responseBrch = sky._request(flightB.country, flightB.currency,
+    responseB = sky._request(flightB.country, flightB.currency,
                                 flightB.locale, flightB.origin, flightB.dest,
                                 flightB.outtime, flightB.intime)
 
-    airportsDano = filter((lambda x: x["Type"] == "Station"), responseDano["Places"])
-    airportsBrch = filter((lambda x: x["Type"] == "Station"), responseBrch["Places"])
+    airportsA = filter((lambda x: x["Type"] == "Station"), responseA["Places"])
+    airportsB = filter((lambda x: x["Type"] == "Station"), responseB["Places"])
 
-    carriersDano = responseDano["Carriers"]
-    carriersBrch = responseBrch["Carriers"]
+    carriersA = responseA["Carriers"]
+    carriersB = responseB["Carriers"]
     carriers = {}
-    for c in carriersDano:
+    for c in carriersA:
       carriers[c["CarrierId"]] = c["Name"]
-    for c in carriersBrch:
+    for c in carriersB:
       carriers[c["CarrierId"]] = c["Name"]
 
-    airports = list(airportsBrch) + list(airportsDano)
+    airports = list(airportsB) + list(airportsA)
     airports_ = {}
     for x in airports:
       airports_[x["PlaceId"]] = {"IataCode" : x["IataCode"],
                                  "Name" : x["Name"],
                                  "CityId" : x["CityId"]}
 
-    flightsDano = [self._clean(x, airports_, carriers) for x in responseDano["Quotes"]]
-    flightsBrch = [self._clean(x, airports_, carriers) for x in responseBrch["Quotes"]]
+    flightsA = [self._clean(x, airports_, carriers) for x in responseA["Quotes"]]
+    flightsB = [self._clean(x, airports_, carriers) for x in responseB["Quotes"]]
 
-    pairs = list(product(flightsBrch, flightsDano))
+    pairs = list(product(flightsB, flightsA))
     for crit in ["DestinationCityId", "InTime", "OutTime"]:
       pairs = filter((lambda x: x[0][crit] == x[1][crit]), pairs)
 
