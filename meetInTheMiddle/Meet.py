@@ -16,7 +16,7 @@ class Meet:
     res["OriginCode"] = airports[jobj["OutboundLeg"]["OriginId"]]["IataCode"]
     res["DestinationId"] = jobj["OutboundLeg"]["DestinationId"]
     res["DestinationCityId"] = airports[res["DestinationId"]]["CityId"]
-    res["DestinationName"] = airport]s[res["DestinationId"]["Name"]
+    res["DestinationName"] = airports[res["DestinationId"]]["Name"]
     res["DestinationCode"] = airports[res["DestinationId"]]["IataCode"]
     res["OutTime"] = jobj["OutboundLeg"]["DepartureDate"][0:10]
     res["InTime"] = jobj["InboundLeg"]["DepartureDate"][0:10]
