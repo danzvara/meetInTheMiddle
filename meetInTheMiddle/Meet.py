@@ -13,9 +13,10 @@ class Meet:
   def _clean(self, jobj, airports, carriers):
     res = {}
     res["Price"] = jobj["MinPrice"]
+    res["OriginCode"] = airports[jobj["OutboundLeg"]["OriginId"]]["IataCode"]
     res["DestinationId"] = jobj["OutboundLeg"]["DestinationId"]
     res["DestinationCityId"] = airports[res["DestinationId"]]["CityId"]
-    res["DestinationName"] = airports[res["DestinationId"]]["Name"]
+    res["DestinationName"] = airport]s[res["DestinationId"]["Name"]
     res["DestinationCode"] = airports[res["DestinationId"]]["IataCode"]
     res["OutTime"] = jobj["OutboundLeg"]["DepartureDate"][0:10]
     res["InTime"] = jobj["InboundLeg"]["DepartureDate"][0:10]
