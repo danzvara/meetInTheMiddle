@@ -10,13 +10,14 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg&libraries=places"> </script>
-  <script type="text/javascript" src="static/example.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAut7TRhA_DVhsXUQFM0cr1es1lMv_ymDg&libraries=places&language=en"> </script>
   <script type="text/javascript" src="static/datepicker.min.js"></script>
   <script type="text/javascript" src="static/i18n/datepicker.en.js"></script>
 
 </head>
 <body id="focus">
+  <script type="text/javascript" src="static/example.js"></script>
+
   <div class="columns">
     <div class="column is-5 main-divider">
       <div class="columns rero">
@@ -48,7 +49,7 @@
                     <label class="label">From</label>
                   </div>
                   <div class="column is-10 ">
-                    <input type='text' class="input pac-input" placeholder="e.g. Los Angeles (LAX)"/>
+                    <input type='text' class="input pac-input" id="froma" placeholder="e.g. Los Angeles (LAX)"/>
                   </div>
                 </div>
                 <div class="columns">
@@ -56,11 +57,11 @@
                     <label class="label">Dates</label>
                   </div>
                   <div class="column is-4">
-                    <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly out" />
+                    <input type='text' class="input datepicker-here" id="outbound" data-language='en' placeholder="Fly out" />
                   </div>
                   <div class="column is-2" style="text-align:center;">-</div>
                   <div class="column is-4">
-                    <input type='text' class="input datepicker-here" data-language='en' placeholder="Fly back" />
+                    <input type='text' class="input datepicker-here" id="inbound" data-language='en' placeholder="Fly back" />
                   </div>
                 </div>
               </div>
@@ -80,7 +81,7 @@
                       <label class="label">From</label>
                     </div>
                     <div class="column is-10 ">
-                      <input type='text' class="input pac-input" placeholder="e.g. Los Angeles (LAX)" />
+                      <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)" />
                     </div>
                   </div>
                   <div class="columns">
@@ -146,10 +147,46 @@ $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=skopja&key
 
 
   <script>
+
+  var usToIso = function(s) {
+    return s.split('/');
+  }
+
+
+
+
+// SEARCH CALL
+  $('.lokos').click(function() {
+    var froma = $('#froma').val();
+    var fromb = $('#fromb').val();
+    var outbound = $('#outbound').val();
+    outbound = usToIso(outbound);
+    outbound = outbound[2] + "-" + outbound[0] + "-" + outbound[1];
+    var inbound = $('#inbound').val();
+    inbound = usToIso(inbound);
+    inbound = inbound[2] + "-" + inbound[0] + "-" + inbound[1];
+
+    var data = { fromA: froma, fromB: fromb, outbound: outbound, inbound: inbound};
+
+    $.ajax({
+    type : "POST",
+    url: "http://129.31.222.171:8080/api/request",
+    data: JSON.stringify(data, null, '\t'),
+    contentType: 'application/json;charset=UTF-8',
+    success: function(result) {
+        console.log(result);
+        }
+    });
+
+  })
+
+
+  var options = {
+     types: ['(cities)']    };
   var initAutocomplete = function() {
     var input = document.getElementsByClassName('pac-input');
     for (var i = 0; i < input.length; i++) {
-      var autocomplete = new google.maps.places.Autocomplete(input[i]);
+      var autocomplete = new google.maps.places.Autocomplete(input[i], options);
       var infowindow = new google.maps.InfoWindow();
       var infowindowContent = document.getElementById('infowindow-content');
       infowindow.setContent(infowindowContent);
