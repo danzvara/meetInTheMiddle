@@ -15,11 +15,42 @@
 </head>
 <body id="focus">
   <div id="overlay"></div>
-  <div class="columns" id="main-block">
-    <p>iohioh</p>
-  </div>
-  <div class="columns" id="back-block">
-    <div class="column is-5 main-divider">
+  <div class="columns">
+
+    <div class="column is-5 main-divider" id="main-block">
+      <div class="columns rero">
+        <div class="column is-12">
+          <nav class="nav has-shadow">
+            <div class="container">
+              <div class="nav-left">
+                <a class="nav-item">
+                  <img src="http://i.imgur.com/YWaXvJF.png" alt="meetInTheMiddle logo">
+                  <p class="nav-item ">Currency &nbsp; <b>£</b></p>
+                </a>
+              </div>
+              <div class="nav-right nav-menu">
+                <a class="nav-item is-tab button is-primary hoho">Back</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="columns add-trip">
+        <div class="column is-10 is-offset-1">
+          <div class="card mar-top">
+            <div class="card-content">
+              <h4 class="pad-down">Person 1</h4>
+              <div>
+                <p>huehuehuehe</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-5 main-divider" id="back-block">
       <div class="columns rero">
         <div class="column is-12">
           <nav class="nav has-shadow">
@@ -36,6 +67,7 @@
             </div>
           </nav>
         </div>
+
       </div>
 
       <div class="columns">
@@ -49,7 +81,7 @@
                     <label class="label">From</label>
                   </div>
                   <div class="column is-10 ">
-                    <input type='text' class="input pac-input" id="froma" placeholder="e.g. Los Angeles (LAX)" />
+                    <input type='text' class="input pac-input" id="froma" placeholder="e.g. Los Angeles (LAX)" value="Bratislava" />
                   </div>
                 </div>
                 <div class="columns">
@@ -81,7 +113,7 @@
                     <label class="label">From</label>
                   </div>
                   <div class="column is-10 ">
-                    <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)" />
+                    <input type='text' class="input pac-input" id="fromb" placeholder="e.g. Los Angeles (LAX)" value="Berlin" />
                   </div>
                 </div>
                 <div class="columns">
@@ -149,17 +181,27 @@
       url: "/api/request",
       data: data,
       success: function(result) {
-        console.log(result);
         $("#overlay").hide();
         //ACTIVATE NEW STUFF HERE
         $('#back-block').hide();
         $('#main-block').show();
+        var obj = JSON.parse(result);
+
+        if (obj.length % 2 != 0) obj.pop;
+
+        for (var i = 0; i < obj.length; i++) {
+          $('.add-trip').
+        }
       }
     });
 
     // Continue with some stuff
     $("#overlay").show();
+  });
 
+  $('.hoho').click(function() {
+    $('#main-block').hide();
+    $('#back-block').show();
   })
 
 
